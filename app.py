@@ -21,7 +21,7 @@ st.sidebar.write(
 @st.cache_resource
 def load_model():
     st.write("Loading model... Please wait.")
-    pipe = StableDiffusionPipeline.from_pretrained("runwayml/stable-diffusion-v1-5")
+    pipe = StableDiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4")
     pipe.to("cuda" if torch.cuda.is_available() else "cpu")  # Use GPU if available
     return pipe
 
@@ -35,7 +35,7 @@ if st.button("Generate Image"):
         with st.spinner("Generating image..."):
             try:
                 # Generate the image
-                image = pipe(prompt).images[0]
+                image = pipe(prompt, num_inference_steps=20).images[0]
                 
                 # Display the generated image
                 st.image(image, caption="Generated Image", use_container_width=True)
